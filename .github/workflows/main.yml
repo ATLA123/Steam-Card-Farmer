@@ -1,0 +1,26 @@
+name: Steam Card Farmer
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *' # Tự động chạy lại mỗi 6 tiếng để giữ bot online
+
+jobs:
+  farm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Farmer
+        env:
+          STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
+          STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
+        run: node index.js
