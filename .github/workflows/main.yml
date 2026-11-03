@@ -31,4 +31,4 @@ jobs:
         run: |
           cd asf
           # Truyền trực tiếp mã Guard của bạn vào lệnh chạy dưới đây
-          ./ArchiSteamFarm --headless --auth-code="NCW2B"
+          ./ArchiSteamFarm --headless --auth-code="QKMX9"
