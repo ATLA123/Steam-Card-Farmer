@@ -8,23 +8,27 @@ jobs:
   farm:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Download ArchiSteamFarm
+        run: |
+          mkdir asf && cd asf
+          wget https://github.com
+          unzip ASF-linux-x64.zip
+          chmod +x ArchiSteamFarm
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      - name: Create Bot Config
+        run: |
+          mkdir -p asf/config
+          cat <<EOF > asf/config/bot1.json
+          {
+            "Name": "bot1",
+            "SteamLogin": "${{ secrets.STEAM_USERNAME }}",
+            "SteamPassword": "${{ secrets.STEAM_PASSWORD }}",
+            "Enabled": true,
+            "CustomGamePlayedWhileIdling": "Counter-Strike 2"
+          }
+          EOF
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Install TypeScript Runner
-        run: npm install -g tsx
-
-      - name: Run Farmer
-        env:
-          STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
-          STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
-          STEAM_PLAY_GAMES: 730
-        run: npx tsx index.ts --username "$STEAM_USERNAME" --password "$STEAM_PASSWORD"
+      - name: Run ArchiSteamFarm
+        run: |
+          cd asf
+          ./ArchiSteamFarm --headless
