@@ -19,9 +19,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install TypeScript Runner
+        run: npm install -g tsx
+
       - name: Run Farmer
         env:
           STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
           STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
           STEAM_PLAY_GAMES: 730
-        run: node cli.js
+        run: npx tsx index.ts --username "$STEAM_USERNAME" --password "$STEAM_PASSWORD"
