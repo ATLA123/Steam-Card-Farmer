@@ -1,8 +1,6 @@
 name: Steam Card Farmer
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'
 
 jobs:
   farm:
@@ -24,11 +22,13 @@ jobs:
             "SteamLogin": "${{ secrets.STEAM_USERNAME }}",
             "SteamPassword": "${{ secrets.STEAM_PASSWORD }}",
             "Enabled": true,
-            "CustomGamePlayedWhileIdling": "Counter-Strike 2"
+            "SteamParentalCode": "0",
+            "AutoSteamSaleEvent": false
           }
           EOF
 
       - name: Run ArchiSteamFarm
         run: |
           cd asf
-          ./ArchiSteamFarm --headless
+          # Truyền trực tiếp mã Guard của bạn vào lệnh chạy dưới đây
+          ./ArchiSteamFarm --headless --auth-code="BKJ9R"
